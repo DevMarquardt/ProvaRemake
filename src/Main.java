@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -8,7 +9,14 @@ public class Main  {
 
     static Random random = new Random();
 
+    static Disciplina java = new Disciplina("java", 340 , 3);
+
+    static Disciplina poo = new Disciplina("poo", 100 , 2);
+
+    static Disciplina logica = new Disciplina("logica", 160 , 1);
+
     public static void main(String[] args) {
+
         menuInicial();
     }
 
@@ -50,7 +58,6 @@ public class Main  {
                     [3] - Cadastrar secretario
                     [0] - Voltar""");
             opcao = sc.nextInt();
-
             if (opcao==0){
                 menuInicial();
             }
@@ -64,8 +71,25 @@ public class Main  {
             endereco = sc.next();
             switch (opcao){
                 case 1:
-                    Usuario professor = new Professor(id, nome, idade, endereco);
-                    Usuario.usuarios.add(professor);
+                    System.out.println("""
+                            Qual a disciplina do professor
+                            [1] - Java
+                            [2] - Lógica
+                            [3] - POO""");
+                    int disciplina = sc.nextInt();
+                    switch (disciplina){
+                        case 1:
+                            Usuario professor = new Professor(id, nome, idade, endereco, java);
+                            Usuario.usuarios.add(professor);
+                            break;
+                        case 2:
+                            Usuario professor1 = new Professor(id, nome, idade, endereco, logica);
+                            Usuario.usuarios.add(professor1);
+                            break;
+                        case 3:
+                            Usuario professor2 = new Professor(id,nome, idade, endereco, poo);
+                            Usuario.usuarios.add(professor2);
+                    }
                     break;
                 case 2:
                     Usuario aluno = new Aluno(id, nome, idade, endereco);
@@ -140,10 +164,14 @@ public class Main  {
                         }else {
                             if (Usuario.procurarUser(id) instanceof Professor){
                                 Turma.professores.add(((Professor) Usuario.procurarUser(id)));
-                                ((Professor) Usuario.procurarUser(id)).setTurma(Turma.procurarTurma(nomeTurma));
+                                ((Professor) (Usuario.procurarUser(id))).setTurma(Turma.procurarTurma(nomeTurma));
+                                System.out.println(Turma.alunos);
+                                System.out.println(Turma.professores);
                             }else{
                                 Turma.alunos.add(((Aluno) Usuario.procurarUser(id)));
                                 ((Aluno) Usuario.procurarUser(id)).setTurma(Turma.procurarTurma(nomeTurma));
+                                System.out.println(Turma.alunos);
+                                System.out.println(Turma.professores);
                             }
                         }
                     }
@@ -166,6 +194,25 @@ public class Main  {
     }
 
     private static void menuProfessor() {
+        int opcao;
+        do {
+            logado.menu();
+            opcao = sc.nextInt();
+            switch (opcao){
+                case 1:
+                    System.out.println("Qual a turma");
+                    String turma = sc.next();
+                    if (Turma.procurarTurma(turma)==null){
+                        System.out.println("Turma não econtrada");
+                    }else{
+                        for (Aluno aluno: Turma.getAlunos()) {
+                            System.out.println("Que nota o aluno " + aluno.getNome() + " tirou");
+                            aluno.getNotas().add(new Prova(((Professor)logado).getDisciplina(), sc.nextDouble()));
+                        }
+                    }
+                case 2:
 
+            }
+        }while(opcao!=0);
     }
 }

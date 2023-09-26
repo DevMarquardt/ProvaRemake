@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Aluno extends Usuario{
     private Turma turma;
-    public static ArrayList<Prova> notas = new ArrayList<>();
+    public ArrayList<Prova> notas = new ArrayList<>();
 
     public Aluno(int id, String nome, int idade, String endereco) {
         super(id, nome, idade, endereco);
@@ -15,5 +15,9 @@ public class Aluno extends Usuario{
 
     public void setTurma(Turma turma) {
         this.turma = turma;
+    }
+
+    public ArrayList<Prova> getNotas() {
+        return notas;
     }
 }
